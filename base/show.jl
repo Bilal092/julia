@@ -651,7 +651,8 @@ function show(io::IO, src::CodeInfo)
     @assert src.codelocs !== nothing
     if isempty(src.linetable) || src.linetable[1] isa LineInfoNode
         println(io)
-        ir = Core.Compiler.inflate_ir(src)
+        # TODO: static parameter values?
+        ir = Core.Compiler.inflate_ir(src, Core.svec())
         IRShow.show_ir(lambda_io, ir, argnames=sourceinfo_slotnames(src))
     else
         # this is a CodeInfo that has not been used as a method yet, so its locations are still LineNumberNodes
